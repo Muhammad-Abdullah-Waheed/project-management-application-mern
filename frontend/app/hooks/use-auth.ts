@@ -1,0 +1,25 @@
+import { useMutation } from "@tanstack/react-query";
+import type { SignUpFormData } from "@/routes/auth/sign-up";
+import type { SignInFormData } from "@/routes/auth/sign-in";
+import { postData } from "@/lib/fetch-util";
+
+
+export const useSignUpMutation = () => {
+    return useMutation({
+        mutationFn: (data: SignUpFormData) => postData("/auth/register", data),
+    });
+}
+
+export const useEmailVerifyMutation = () => {
+    return useMutation({
+        mutationFn: (token: string) => postData("/auth/verify-email", { token }),
+    });
+}
+
+export const useLoginMutation = () => {
+    return useMutation({
+        mutationFn: (data: SignInFormData) => postData("/auth/login", data),
+    });
+}
+
+

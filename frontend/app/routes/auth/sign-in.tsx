@@ -7,7 +7,13 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router';
-type SignInFormData = z.infer<typeof signInSchema>
+import { useLoginMutation } from '@/hooks/use-auth';
+import { toast } from 'sonner';
+import { useNavigate } from 'react-router';
+import { Loader2 } from 'lucide-react';
+import { useAuth } from '@/provider/auth-context';
+
+export type SignInFormData = z.infer<typeof signInSchema>
 const SignIn = () => {
     const form = useForm<SignInFormData>({
         resolver: zodResolver(signInSchema),
@@ -16,8 +22,24 @@ const SignIn = () => {
             password: ""
         }
     });
+
+    const { login } = useAuth();
+    const { mutate, isPending } = useLoginMutation();
+    const navigate = useNavigate();
     const handleOnSubmit = (values: SignInFormData) => {
-        console.log(values);
+        mutate(values, {
+            onSuccess: (data: any) => {
+                login(data);
+                toast.success("You are logged in successfully!");
+                console.log(data);
+                navigate("/dashboard");
+            },
+            onError: (error: any) => {
+                console.log(error);
+                const errorMessage = error.response?.data?.message || "Something went wrong!"
+                toast.error(errorMessage);
+            }
+        });
     }
     return (
         <div className='min-h-screen flex flex-col items-center justify-center bg-muted'>
@@ -59,7 +81,9 @@ const SignIn = () => {
                                     </FormItem>
                                 )}
                             />
-                            <Button type="submit" className='w-full'>Sign In</Button>
+                            <Button type="submit" className='w-full' disabled={isPending}>
+                                {isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : "Sign In"}
+                            </Button>
                         </form>
                     </Form>
 
