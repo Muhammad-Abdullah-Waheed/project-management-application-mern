@@ -33,7 +33,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             setUser(JSON.parse(user));
         } else {
             setIsAuthenticated(false);
-            navigate("/sign-in");
+            if (!isPublicRoute) {
+                navigate("/sign-in");
+            }
         }
 
         setIsLoading(false);

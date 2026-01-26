@@ -15,3 +15,15 @@ export const signUpSchema = z.object({
     path: ["confirmPassword"],
     message: "Password does not match"
 })
+
+export const forgotPasswordSchema = z.object({
+    email: z.string().email("Invalid email"),
+})
+
+export const resetPasswordSchema = z.object({
+    password: z.string().min(8, "Password Should be at least 8 characters long"),
+    confirmPassword: z.string().min(1, "Confirm Password is required"),
+}).refine((data) => data.password === data.confirmPassword, {
+    path: ["confirmPassword"],
+    message: "Password does not match"
+})
