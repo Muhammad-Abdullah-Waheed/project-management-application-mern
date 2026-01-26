@@ -215,13 +215,18 @@ const resetPasswordRequest = async (req, res) => {
 
 const resetPassword = async (req, res) => {
     try {
-        const { email, password, token } = req.body;
+        const { password, token } = req.body;
 
-        if (!email || !password || !token) {
+        if (!password || !token) {
             return res.status(400).json({ message: "All fields are required" });
         }
 
-        const user = await User.findOne({ email });
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        if (decoded.purpose !== "Password-Reset") {
+            return res.status(401).json({ message: "Unauthorized access for password reset" });
+        }
+
+        const user = await User.findOne({ _id: decoded.userId }).select("+password");
         if (!user) {
             return res.status(404).json({ message: "User not found" });
         }
@@ -237,7 +242,6 @@ const resetPassword = async (req, res) => {
         if (!verificationRecord || verificationRecord.token !== token) {
             return res.status(401).json({ message: "Unauthorized access for password reset" });
         }
-
         const isPasswordValid = await bcrypt.compare(password, user.password);
         if (isPasswordValid) {
             return res.status(400).json({ message: "New password cannot be same as old password" });
