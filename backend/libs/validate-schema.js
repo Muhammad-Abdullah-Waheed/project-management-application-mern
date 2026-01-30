@@ -23,5 +23,11 @@ const resetPasswordSchema = z.object({
     password: z.string().min(8, "Password must be at least 8 characters long").max(40, "Password must be at most 40 characters long"),
     token: z.string().min(1, "Token is required"),
 });
+    
+const workspaceSchema = z.object({
+    name: z.string().min(3, "Name must be at least 3 characters long").max(40, "Name must be at most 40 characters long"),
+    description: z.string().trim().optional(),
+    color: z.string().optional(),
+});
 
-export { registerSchema, loginSchema, verifyEmailSchema, resetPasswordRequestSchema, resetPasswordSchema };
+export { registerSchema, loginSchema, verifyEmailSchema, resetPasswordRequestSchema, resetPasswordSchema, workspaceSchema };

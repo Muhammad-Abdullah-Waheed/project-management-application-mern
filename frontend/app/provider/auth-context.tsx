@@ -26,7 +26,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     const checkAuth = async () => {
         setIsLoading(true);
-
         const user = localStorage.getItem("user");
         if (user) {
             setIsAuthenticated(true);
@@ -37,9 +36,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
                 navigate("/sign-in");
             }
         }
-
         setIsLoading(false);
     };
+    
     React.useEffect(() => {
         checkAuth();
     }, []);
