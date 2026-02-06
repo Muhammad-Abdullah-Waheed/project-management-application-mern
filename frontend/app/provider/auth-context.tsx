@@ -17,7 +17,7 @@ const AuthContext = React.createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const [user, setUser] = React.useState<User | null>(null);
     const [isAuthenticated, setIsAuthenticated] = React.useState(false);
-    const [isLoading, setIsLoading] = React.useState(false);
+    const [isLoading, setIsLoading] = React.useState(true);
 
 
     const location = useLocation().pathname;
@@ -38,7 +38,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         }
         setIsLoading(false);
     };
-    
+
     React.useEffect(() => {
         checkAuth();
     }, []);

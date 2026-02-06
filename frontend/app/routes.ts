@@ -11,5 +11,7 @@ export default [
     ]),
     layout("routes/dashboad/dashBoard-Layout.tsx", [
         route("dashboard", "routes/dashboad/index.tsx"),
+        route("workspaces", "routes/dashboad/workspaces/index.tsx"),
+        route("workspaces/:workspaceId", "routes/dashboad/workspaces/workspace-details.tsx"),
     ]),
 ] satisfies RouteConfig;
