@@ -1,12 +1,10 @@
-import { useMutation } from '@tanstack/react-query'
-import React from 'react'
-import { postData } from '../lib/fetch-util'
+import { useMutation, useQuery } from '@tanstack/react-query'
+import { getData, postData } from '../lib/fetch-util'
 import { projectSchema } from '../lib/schema'
 import type z from 'zod'
-import { useQueryClient } from '@tanstack/react-query'
+import { queryClient } from '@/provider/react-query-provider'
 
 export const useCreateProjectMutation = () => {
-    const queryClient = useQueryClient();
     return useMutation({
         mutationFn: (data: { workspaceId: string, projectData: z.infer<typeof projectSchema> }) =>
             postData(`/projects/${data.workspaceId}/create-project`, data.projectData),
@@ -15,3 +13,12 @@ export const useCreateProjectMutation = () => {
         }
     });
 }
+
+export const useProjectTasksQuery = (projectId: string) => {
+    return useQuery({
+        queryKey: ["project", projectId],
+        queryFn: () => getData(`/projects/${projectId}/tasks`),
+    });
+}
+
+

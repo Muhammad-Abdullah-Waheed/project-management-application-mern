@@ -2,7 +2,7 @@ import express from "express";
 import { validateRequest } from "zod-express-middleware";
 import { projectSchema } from "../libs/validate-schema.js";
 import authMiddleware from "../middleware/auth-middleware.js";
-import { createProjectController } from "../controllers/project.js";
+import { createProjectController, getProjectTasksController, getProjectDetailsController } from "../controllers/project.js";
 import z from "zod";
 
 
@@ -15,6 +15,14 @@ router.post("/:workspaceId/create-project",
         body: projectSchema
     }),
     createProjectController)
+
+router.get("/:projectId", authMiddleware, validateRequest({
+    params: z.object({ projectId: z.string() }),
+}), getProjectDetailsController)
+
+router.get("/:projectId/tasks", authMiddleware, validateRequest({
+    params: z.object({ projectId: z.string() }),
+}), getProjectTasksController)
 
 
 

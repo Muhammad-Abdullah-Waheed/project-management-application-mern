@@ -5,7 +5,7 @@ const projectSchema = new mongoose.Schema({
     title: { type: String, required: true, trim: true, },
     description: { type: String, trim: true, },
     workspace: { type: mongoose.Schema.Types.ObjectId, ref: "Workspace", required: true, },
-    status: { type: String, enum: ["Planing", "In Progress","On Hold", "Completed","Cancelled"], default: "Planing", },
+    status: { type: String, enum: ["Planing", "In Progress", "On Hold", "Completed", "Cancelled"], default: "Planing", },
     startDate: { type: Date, required: true, },
     dueDate: { type: Date, required: true, },
     progress: { type: Number, default: 0, min: 0, max: 100 },
@@ -18,7 +18,7 @@ const projectSchema = new mongoose.Schema({
         },
     ],
     tags: [{ type: String, trim: true, }],
-    createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true, }, 
+    createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true, },
     isArchived: { type: Boolean, default: false, },
 }, { timestamps: true });
 

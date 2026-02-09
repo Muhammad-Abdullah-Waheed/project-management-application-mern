@@ -47,8 +47,8 @@ export interface Project {
 }
 
 export enum TaskStatus {
-    ToDo = "To-Do",
-    InProgress = "In-Progress",
+    ToDo = "To Do",
+    InProgress = "In Progress",
     Review = "Review",
     Done = "Done",
     Cancelled = "Cancelled",
@@ -116,4 +116,10 @@ export interface MemberProps {
     user: User;
     role: "owner" | "admin" | "member" | "viewer";
     joinDate: Date;
+}
+
+export enum ProjectMemberRole {
+    OWNER = "manager",
+    ADMIN = "contributor",
+    MEMBER = "viewer",
 }

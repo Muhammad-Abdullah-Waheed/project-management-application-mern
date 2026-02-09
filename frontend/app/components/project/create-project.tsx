@@ -53,7 +53,6 @@ const CreateProjectDialog = ({ isOpen, onOpenChange, workspaceId, workspaceMembe
                 toast.success("Project created successfully");
                 form.reset();
                 onOpenChange(false)
-                queryClient.invalidateQueries({ queryKey: ["workspace", workspaceId] })
             },
             onError: (error) => {
                 console.log(error)

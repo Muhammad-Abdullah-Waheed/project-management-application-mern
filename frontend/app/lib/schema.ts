@@ -1,4 +1,4 @@
-import { ProjectStatus } from "@/types";
+import { ProjectStatus, TaskStatus } from "@/types";
 import { z } from "zod";
 
 export const signInSchema = z.object({
@@ -53,4 +53,13 @@ export const projectSchema = z.object({
         })
     ).optional(),
     tags: z.string().optional(),
+})
+
+export const createTaskSchema = z.object({
+    title: z.string().min(3, "Title should be at least 3 characters long"),
+    description: z.string().optional(),
+    status: z.enum(["To Do", "In Progress", "Review", "Done", "Cancelled"]),
+    priority: z.enum(["Low", "Medium", "High", "Critical"]),
+    dueDate: z.string().min(1, "Due Date is required"),
+    assignees: z.array(z.string()).min(1, "Assignee is required"),
 })

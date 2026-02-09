@@ -18,7 +18,7 @@ interface CreateWorkspaceDialogProps {
 }
 
 // Define 9 predifine colors for workspace
-export const colorsOption = [
+const colorsOption = [
     '#FF5733', //Red-Orange
     '#33FF57', //Green
     '#3357FF', //Blue

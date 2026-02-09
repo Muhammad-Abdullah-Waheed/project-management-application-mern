@@ -44,8 +44,17 @@ const projectSchema = z.object({
     tags: z.string().optional(),
 });
 
+const createTaskSchema = z.object({
+    title: z.string().min(3, "Title must be at least 3 characters long").max(40, "Title must be at most 40 characters long"),
+    description: z.string().trim().optional(),
+    status: z.enum(["To Do", "In Progress", "Review", "Done", "Cancelled"]),
+    priority: z.enum(["Low", "Medium", "High", "Critical"]),
+    dueDate: z.string().optional(),
+    assignees: z.array(z.string()).optional(),
+});
+
 export {
     registerSchema, loginSchema, verifyEmailSchema,
     resetPasswordRequestSchema, resetPasswordSchema,
-    workspaceSchema, projectSchema
+    workspaceSchema, projectSchema, createTaskSchema
 };

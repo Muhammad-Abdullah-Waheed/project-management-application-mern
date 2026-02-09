@@ -1,4 +1,4 @@
-import type { ProjectStatus } from "@/types";
+import type { ProjectStatus, TaskStatus } from "@/types";
 
 export const getTaskStatusColor = (status: ProjectStatus) => {
     switch (status) {
@@ -15,4 +15,15 @@ export const getTaskStatusColor = (status: ProjectStatus) => {
         default:
             return "bg-gray-100 text-gray-800 dark:bg-gray-900/30 dark:text-gray-300";
     }
+}
+
+
+export const getProjectProgress = (tasks: { status: TaskStatus }[]) => {
+    const totalTasks = tasks.length;
+    if (totalTasks === 0) {
+        return 0;
+    }
+    const completedTasks = tasks.filter((task) => task.status === "Done").length;
+    const progress = Math.round((completedTasks / totalTasks) * 100);
+    return progress;
 }
