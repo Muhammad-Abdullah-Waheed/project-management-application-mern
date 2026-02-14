@@ -1,92 +1,132 @@
-import type { workSpace } from "@/types";
+import { useAuth } from "@/provider/auth-context";
+import type { Workspace } from "@/types";
 import { Button } from "../ui/button";
 import { Bell, PlusCircle } from "lucide-react";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { useAuth } from "@/provider/auth-context";
-import { Link, useLoaderData } from "react-router";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuTrigger,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuItem,
+    DropdownMenuGroup,
+} from "../ui/dropdown-menu";
+import { Avatar, AvatarImage, AvatarFallback } from "../ui/avatar";
+import { Link, useLoaderData, useLocation, useNavigate } from "react-router";
 import WorkspaceAvatar from "../workspace/workspace-avatar";
 
-
-
 interface HeaderProps {
-    onCreatingWorkspace: () => void;
-    currentWorkspace: workSpace | null;
-    onWorkspaceSelect: (workspace: workSpace) => void;
+    onWorkspaceSelected: (workspace: Workspace) => void;
+    selectedWorkspace: Workspace | null;
+    onCreateWorkspace: () => void;
 }
 
 const Header = ({
-    onCreatingWorkspace,
-    currentWorkspace,
-    onWorkspaceSelect
+    onWorkspaceSelected,
+    selectedWorkspace,
+    onCreateWorkspace,
 }: HeaderProps) => {
-    const { user, logout } = useAuth();
+    const navigate = useNavigate();
 
-    const { workspaces } = useLoaderData() as { workspaces: workSpace[] };
+    const { user, logout } = useAuth();
+    const loaderData = useLoaderData() as { workspaces: Workspace[] };
+    const workspaces = loaderData?.workspaces || [];
+    const isOnWorkspacePage = useLocation().pathname.includes("/workspace");
+    // console.log("workspaces:   ", workspaces)
+    const handleOnClick = (workspace: Workspace) => {
+        onWorkspaceSelected(workspace);
+        const location = window.location;
+
+        if (isOnWorkspacePage) {
+            navigate(`/workspaces/${workspace._id}`);
+        } else if (workspace._id !== null) {
+            const basePath = location.pathname;
+            navigate(`${basePath}?workspaceId=${workspace._id}`);
+        } else {
+            navigate(`/workspaces`);
+        }
+    };
 
     return (
         <div className="bg-background sticky top-0 z-40 border-b">
-            <div className="flex h-14 items-center justify-between px-4 sm:px-6 lg:px-8 py-4 md:py-6 lg:py-8">
+            <div className="flex h-14 items-center justify-between px-4 sm:px-6 lg:px-8 py-4">
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button variant="outline" className="p-5">
-                            {currentWorkspace?.color ?
+                        <Button variant={"outline"}>
+                            {selectedWorkspace ? (
                                 <>
-                                    <WorkspaceAvatar color={currentWorkspace.color} name={currentWorkspace.name} />
-                                    <span className="font-medium">{currentWorkspace.name}</span>
+                                    {selectedWorkspace.color && (
+                                        <WorkspaceAvatar
+                                            color={selectedWorkspace.color}
+                                            name={selectedWorkspace.name}
+                                        />
+                                    )}
+                                    <span className="font-medium">{selectedWorkspace?.name}</span>
                                 </>
-                                :
-                                <>
-                                    <span className="font-medium">Create Workspace</span>
-                                </>
-                            }
+                            ) : (
+                                <span className="font-medium">Select Workspace</span>
+                            )}
                         </Button>
                     </DropdownMenuTrigger>
+
                     <DropdownMenuContent>
-                        <DropdownMenuLabel>Workspaces</DropdownMenuLabel>
+                        <DropdownMenuLabel>Workspace</DropdownMenuLabel>
                         <DropdownMenuSeparator />
 
                         <DropdownMenuGroup>
-                            {workspaces?.map((workspace: workSpace) => (
-                                <DropdownMenuItem key={workspace._id} onClick={() => onWorkspaceSelect(workspace)}>
-                                    {workspace && <WorkspaceAvatar color={workspace.color} name={workspace.name} />}
-                                    <span className="font-medium">{workspace.name}</span>
+                            {workspaces.map((ws) => (
+                                <DropdownMenuItem
+                                    key={ws._id}
+                                    onClick={() => handleOnClick(ws)}
+                                >
+                                    {ws.color && (
+                                        <WorkspaceAvatar color={ws.color} name={ws.name} />
+                                    )}
+                                    <span className="ml-2">{ws.name}</span>
                                 </DropdownMenuItem>
                             ))}
                         </DropdownMenuGroup>
 
-                        <DropdownMenuSeparator />
-
-                        <DropdownMenuItem onClick={() => onCreatingWorkspace()}>
-                            <PlusCircle />
-                            <span className="font-medium">Create Workspace</span>
-                        </DropdownMenuItem>
+                        <DropdownMenuGroup>
+                            <DropdownMenuItem onClick={onCreateWorkspace}>
+                                <PlusCircle className="w-4 h-4 mr-2" />
+                                Create Workspace
+                            </DropdownMenuItem>
+                        </DropdownMenuGroup>
                     </DropdownMenuContent>
                 </DropdownMenu>
+
                 <div className="flex items-center gap-2">
-                    <Button variant="ghost" size="icon"><Bell /></Button>
+                    <Button variant="ghost" size="icon">
+                        <Bell />
+                    </Button>
+
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" size="icon">
-                                <Avatar>
-                                    <AvatarImage src={user?.profilePicture} />
-                                    <AvatarFallback>{user?.name.slice(0, 2).toUpperCase()}</AvatarFallback>
+                            <button className="rounded-full border p-1 w-8 h-8">
+                                <Avatar className="w-8 h-8">
+                                    <AvatarImage src={user?.profilePicture} alt={user?.name} />
+                                    <AvatarFallback className="bg-primary text-primary-foreground">
+                                        {user?.name?.charAt(0).toUpperCase()}
+                                    </AvatarFallback>
                                 </Avatar>
-                            </Button>
+                            </button>
                         </DropdownMenuTrigger>
 
                         <DropdownMenuContent align="end">
                             <DropdownMenuLabel>My Account</DropdownMenuLabel>
                             <DropdownMenuSeparator />
-                            <DropdownMenuItem><Link to="/profile">Profile</Link></DropdownMenuItem>
+                            <DropdownMenuItem>
+                                <Link to="/user/profile">Profile</Link>
+                            </DropdownMenuItem>
                             <DropdownMenuSeparator />
-                            <DropdownMenuItem onClick={() => logout()}>Logout</DropdownMenuItem>
+                            <DropdownMenuItem onClick={logout}>Log Out</DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default Header
+export default Header;

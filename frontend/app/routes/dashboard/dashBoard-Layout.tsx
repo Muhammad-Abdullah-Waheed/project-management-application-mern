@@ -1,8 +1,8 @@
 import Header from "@/components/layouts/header";
-import Loder from "@/components/ui/loder";
+import Loader from "@/components/ui/loader";
 import { useAuth } from "@/provider/auth-context";
 import { Navigate, Outlet } from "react-router"
-import type { Workspace } from "@/types";
+import type { workSpace } from "@/types";
 import React from "react";
 import SidebarComponent from "@/components/layouts/sidebar-component";
 import CreateWorkspaceDialog from "@/components/workspace/create-workspace";
@@ -22,11 +22,11 @@ export const clientLoader = async () => {
 
 const DashBoardLayout = () => {
     const { user, isLoading, isAuthenticated } = useAuth();
-    const [currentWorkspace, setCurrentWorkspace] = React.useState<Workspace | null>(null);
+    const [currentWorkspace, setCurrentWorkspace] = React.useState<workSpace | null>(null);
     const [isCreatingWorkspace, setIsCreatingWorkspace] = React.useState(false);
 
     if (isLoading) {
-        return <div><Loder /></div>
+        return <div><Loader /></div>
     }
     if (!isAuthenticated) {
         return <Navigate to="/sign-in" />;
@@ -38,9 +38,9 @@ const DashBoardLayout = () => {
             </div>
             <div className="flex flex-1 flex-col h-full">
                 <Header
-                    onCreatingWorkspace={() => setIsCreatingWorkspace(true)}
-                    currentWorkspace={currentWorkspace}
-                    onWorkspaceSelect={(workspace: Workspace) => setCurrentWorkspace(workspace)}
+                    onCreateWorkspace={() => setIsCreatingWorkspace(true)}
+                    selectedWorkspace={currentWorkspace}
+                    onWorkspaceSelected={(workspace: workSpace) => setCurrentWorkspace(workspace)}
                 />
 
                 <main className="flex-1 overflow-auto h-full w-full">

@@ -1,11 +1,12 @@
 import { useWorkspaceProjectsQuery } from '@/hooks/use-workspace';
 import React from 'react'
 import { useParams } from 'react-router'
-import type { Workspace, Project } from '@/types';
-import Loder from '@/components/ui/loder';
+import type { workSpace, Project } from '@/types';
+import Loder from '@/components/ui/loader';
 import WorkspaceHeader from '@/components/workspace/workspace-header';
 import ProjectList from '@/components/workspace/project-list';
 import CreateProjectDialog from '@/components/project/create-project';
+import { InviteMemberDialog } from '@/components/workspace/invite-member';
 
 const WorkspaceDetails = () => {
     const { workspaceId } = useParams<{ workspaceId: string }>();
@@ -17,7 +18,7 @@ const WorkspaceDetails = () => {
     }
 
     const { data, isLoading, error } = useWorkspaceProjectsQuery(workspaceId) as {
-        data: { message: string, projects: Project[], workspace: Workspace },
+        data: { message: string, projects: Project[], workspace: workSpace },
         isLoading: boolean,
         error: Error
     };
@@ -48,6 +49,12 @@ const WorkspaceDetails = () => {
                 onOpenChange={setIsCreatingProject}
                 workspaceId={workspaceId}
                 workspaceMembers={data?.workspace?.members as any}
+            />
+
+            <InviteMemberDialog
+                isOpen={isInvitingMember}
+                onOpenChange={setIsInvitingMember}
+                workspaceId={workspaceId}
             />
 
         </div>

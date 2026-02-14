@@ -6,13 +6,13 @@ dotenv.config();
 
 // Create reusable transporter object using Brevo SMTP
 const transporter = nodemailer.createTransport({
-    host: "smtp-relay.brevo.com",
-    port: 587,
-    secure: false, // use TLS? false for 587
-    auth: {
-        user: process.env.BREVO_USER, // your Brevo SMTP email
-        pass: process.env.BREVO_PASS, // your Brevo SMTP password/key
-    },
+  host: "smtp-relay.brevo.com",
+  port: 587,
+  secure: false, // use TLS? false for 587
+  auth: {
+    user: process.env.BREVO_USER, // your Brevo SMTP email
+    pass: process.env.BREVO_PASS, // your Brevo SMTP password/key
+  },
 });
 
 /**
@@ -21,14 +21,14 @@ const transporter = nodemailer.createTransport({
  * @param {string} token - Verification token to include in link
  */
 export const sendVerificationEmail = async (email, token) => {
-    const verificationLink = `${process.env.FRONTEND_URL}/verify-email?token=${token}`;
+  const verificationLink = `${process.env.FRONTEND_URL}/verify-email?token=${token}`;
 
-    // Compose email
-    const mailOptions = {
-        from: `"${process.env.BREVO_SENDER_NAME}" <${process.env.BREVO_SENDER_EMAIL}>`,
-        to: email,
-        subject: "(TaskPilot) Verify Your Email",
-        html: `
+  // Compose email
+  const mailOptions = {
+    from: `"${process.env.BREVO_SENDER_NAME}" <${process.env.BREVO_SENDER_EMAIL}>`,
+    to: email,
+    subject: "(TaskPilot) Verify Your Email",
+    html: `
       <html>
         <body style="font-family: Arial, sans-serif; background:#f4f4f7; padding:40px;">
           <table width="100%" style="max-width:600px;margin:auto;background:#fff;border-radius:8px;padding:40px;box-shadow:0 2px 8px rgba(0,0,0,0.1);">
@@ -52,27 +52,27 @@ export const sendVerificationEmail = async (email, token) => {
         </body>
       </html>
     `,
-    };
+  };
 
-    try {
-        const info = await transporter.sendMail(mailOptions);
-        console.log("Verification email sent:", info.messageId);
-        return info; // Return info for logging or BullMQ
-    } catch (error) {
-        console.error("Error sending verification email:", error);
-        throw error; // Re-throw for retries if using queues
-    }
+  try {
+    const info = await transporter.sendMail(mailOptions);
+    console.log("Verification email sent:", info.messageId);
+    return info; // Return info for logging or BullMQ
+  } catch (error) {
+    console.error("Error sending verification email:", error);
+    throw error; // Re-throw for retries if using queues
+  }
 };
 
 export const sendPasswordResetEmail = async (email, token) => {
-    const resetLink = `${process.env.FRONTEND_URL}/reset-password?token=${token}`;
+  const resetLink = `${process.env.FRONTEND_URL}/reset-password?token=${token}`;
 
-    // Compose email
-    const mailOptions = {
-        from: `"${process.env.BREVO_SENDER_NAME}" <${process.env.BREVO_SENDER_EMAIL}>`,
-        to: email,
-        subject: "(TaskPilot) Reset Your Password",
-        html: `
+  // Compose email
+  const mailOptions = {
+    from: `"${process.env.BREVO_SENDER_NAME}" <${process.env.BREVO_SENDER_EMAIL}>`,
+    to: email,
+    subject: "(TaskPilot) Reset Your Password",
+    html: `
       <html>
         <body style="font-family: Arial, sans-serif; background:#f4f4f7; padding:40px;">
           <table width="100%" style="max-width:600px;margin:auto;background:#fff;border-radius:8px;padding:40px;box-shadow:0 2px 8px rgba(0,0,0,0.1);">
@@ -96,14 +96,39 @@ export const sendPasswordResetEmail = async (email, token) => {
         </body>
       </html>
     `,
-    };
+  };
 
-    try {
-        const info = await transporter.sendMail(mailOptions);
-        console.log("Password reset email sent:", info.messageId);
-        return info; // Return info for logging or BullMQ
-    } catch (error) {
-        console.error("Error sending password reset email:", error);
-        throw error; // Re-throw for retries if using queues
-    }
+  try {
+    const info = await transporter.sendMail(mailOptions);
+    console.log("Password reset email sent:", info.messageId);
+    return info; // Return info for logging or BullMQ
+  } catch (error) {
+    console.error("Error sending password reset email:", error);
+    throw error; // Re-throw for retries if using queues
+  }
+};
+
+/**
+ * Generic function to send emails
+ * @param {Object} options - Email options
+ * @param {string} options.to - Recipient email
+ * @param {string} options.subject - Email subject
+ * @param {string} options.html - HTML content
+ */
+export const sendEmail = async ({ to, subject, html }) => {
+  const mailOptions = {
+    from: `"${process.env.BREVO_SENDER_NAME}" <${process.env.BREVO_SENDER_EMAIL}>`,
+    to,
+    subject,
+    html,
+  };
+
+  try {
+    const info = await transporter.sendMail(mailOptions);
+    console.log("Email sent:", info.messageId);
+    return info;
+  } catch (error) {
+    console.error("Error sending email:", error);
+    throw error;
+  }
 };

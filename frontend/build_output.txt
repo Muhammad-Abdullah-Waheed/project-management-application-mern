@@ -1,0 +1,147 @@
+
+> build
+> react-router build
+
+vite v7.3.1 building client environment for production...
+transforming...
+app/components/ui/form.tsx (1:0): Error when using sourcemap for reporting an error: Can't resolve original location of error.
+✓ 3751 modules transformed.
+✗ Build failed in 10.51s
+app/routes/dashboard/my-tasks.tsx (1:9): "Loader" is not exported by "app/components/ui/loader.tsx", imported by "app/routes/dashboard/my-tasks.tsx".
+file: /home/abdullah/Desktop/PM Project/frontend/app/routes/dashboard/my-tasks.tsx:1:9
+
+1: import { Loader } from "@/components/ui/loader";
+            ^
+2: import { Badge } from "@/components/ui/badge";
+3: import { Button } from "@/components/ui/button";
+
+    at getRollupError (file:///home/abdullah/Desktop/PM%20Project/frontend/node_modules/rollup/dist/es/shared/parseAst.js:401:41)
+    at error (file:///home/abdullah/Desktop/PM%20Project/frontend/node_modules/rollup/dist/es/shared/parseAst.js:397:42)
+    at Module.error (file:///home/abdullah/Desktop/PM%20Project/frontend/node_modules/rollup/dist/es/shared/node-entry.js:17025:16)
+    at Module.traceVariable (file:///home/abdullah/Desktop/PM%20Project/frontend/node_modules/rollup/dist/es/shared/node-entry.js:17481:29)
+    at ModuleScope.findVariable (file:///home/abdullah/Desktop/PM%20Project/frontend/node_modules/rollup/dist/es/shared/node-entry.js:15144:39)
+    at ReturnValueScope.findVariable (file:///home/abdullah/Desktop/PM%20Project/frontend/node_modules/rollup/dist/es/shared/node-entry.js:5688:38)
+    at FunctionBodyScope.findVariable (file:///home/abdullah/Desktop/PM%20Project/frontend/node_modules/rollup/dist/es/shared/node-entry.js:5688:38)
+    at TrackingScope.findVariable (file:///home/abdullah/Desktop/PM%20Project/frontend/node_modules/rollup/dist/es/shared/node-entry.js:5688:38)
+    at Identifier.bind (file:///home/abdullah/Desktop/PM%20Project/frontend/node_modules/rollup/dist/es/shared/node-entry.js:5462:40)
+    at CallExpression.bind (file:///home/abdullah/Desktop/PM%20Project/frontend/node_modules/rollup/dist/es/shared/node-entry.js:2825:28) {
+  binding: 'Loader',
+  code: 'MISSING_EXPORT',
+  exporter: '/home/abdullah/Desktop/PM Project/frontend/app/components/ui/loader.tsx',
+  id: '/home/abdullah/Desktop/PM Project/frontend/app/routes/dashboard/my-tasks.tsx',
+  url: 'https://rollupjs.org/troubleshooting/#error-name-is-not-exported-by-module',
+  pos: 144,
+  loc: {
+    column: 9,
+    file: '/home/abdullah/Desktop/PM Project/frontend/app/routes/dashboard/my-tasks.tsx',
+    line: 1
+  },
+  frame: '1: import { Loader } from "@/components/ui/loader";\n' +
+    '            ^\n' +
+    '2: import { Badge } from "@/components/ui/badge";\n' +
+    '3: import { Button } from "@/components/ui/button";',
+  watchFiles: [
+    '/home/abdullah/Desktop/PM Project/frontend/node_modules/@react-router/dev/dist/config/defaults/entry.client.tsx',
+    '/home/abdullah/Desktop/PM Project/frontend/app/root.tsx',
+    '/home/abdullah/Desktop/PM Project/frontend/app/routes/auth/auth-layout.tsx',
+    '/home/abdullah/Desktop/PM Project/frontend/app/routes/root/home.tsx',
+    '/home/abdullah/Desktop/PM Project/frontend/app/routes/auth/sign-in.tsx',
+    '/home/abdullah/Desktop/PM Project/frontend/app/routes/auth/sign-up.tsx',
+    '/home/abdullah/Desktop/PM Project/frontend/app/routes/auth/forget-password.tsx',
+    '/home/abdullah/Desktop/PM Project/frontend/app/routes/auth/reset-password.tsx',
+    '/home/abdullah/Desktop/PM Project/frontend/app/routes/auth/verify-email.tsx',
+    '/home/abdullah/Desktop/PM Project/frontend/app/routes/dashboard/dashBoard-Layout.tsx',
+    '/home/abdullah/Desktop/PM Project/frontend/app/routes/dashboard/index.tsx',
+    '/home/abdullah/Desktop/PM Project/frontend/app/routes/dashboard/workspaces/index.tsx',
+    '/home/abdullah/Desktop/PM Project/frontend/app/routes/dashboard/workspaces/workspace-details.tsx',
+    '/home/abdullah/Desktop/PM Project/frontend/app/routes/dashboard/projects/project-details.tsx',
+    '/home/abdullah/Desktop/PM Project/frontend/app/routes/dashboard/tasks/task-details.tsx',
+    '/home/abdullah/Desktop/PM Project/frontend/app/routes/dashboard/my-tasks.tsx',
+    '/home/abdullah/Desktop/PM Project/frontend/app/routes/dashboard/members.tsx',
+    '/home/abdullah/Desktop/PM Project/frontend/app/routes/dashboard/workspaces/workspace-invite.tsx',
+    '/home/abdullah/Desktop/PM Project/frontend/node_modules/react/jsx-runtime.js',
+    '/home/abdullah/Desktop/PM Project/frontend/node_modules/react/index.js',
+    '/home/abdullah/Desktop/PM Project/frontend/node_modules/react-dom/client.js',
+    '/home/abdullah/Desktop/PM Project/frontend/node_modules/react-router/dist/development/dom-export.mjs',
+    '/home/abdullah/Desktop/PM Project/frontend/package.json',
+    '/home/abdullah/Desktop/PM Project/frontend/node_modules/react/cjs/react.production.js',
+    '/home/abdullah/Desktop/PM Project/frontend/node_modules/react/cjs/react-jsx-runtime.production.js',
+    '/home/abdullah/Desktop/PM Project/frontend/node_modules/react-dom/cjs/react-dom-client.production.js',
+    '/home/abdullah/Desktop/PM Project/frontend/node_modules/react-dom/index.js',
+    '/home/abdullah/Desktop/PM Project/frontend/node_modules/react-router/dist/development/chunk-FNSCYPCZ.mjs',
+    '/home/abdullah/Desktop/PM Project/frontend/node_modules/react-router/dist/development/chunk-EPOLDU6W.mjs',
+    '/home/abdullah/Desktop/PM Project/frontend/node_modules/scheduler/index.js',
+    '/home/abdullah/Desktop/PM Project/frontend/node_modules/react-dom/cjs/react-dom.production.js',
+    '/home/abdullah/Desktop/PM Project/frontend/app/lib/schema.ts',
+    '/home/abdullah/Desktop/PM Project/frontend/app/components/ui/card.tsx',
+    '/home/abdullah/Desktop/PM Project/frontend/app/components/ui/form.tsx',
+    '/home/abdullah/Desktop/PM Project/frontend/app/components/ui/input.tsx',
+    '/home/abdullah/Desktop/PM Project/frontend/app/components/ui/button.tsx',
+    '/home/abdullah/Desktop/PM Project/frontend/app/hooks/use-auth.ts',
+    '/home/abdullah/Desktop/PM Project/frontend/app/provider/auth-context.tsx',
+    '/home/abdullah/Desktop/PM Project/frontend/app/components/ui/loader.tsx',
+    '/home/abdullah/Desktop/PM Project/frontend/app/components/layouts/header.tsx',
+    '/home/abdullah/Desktop/PM Project/frontend/app/components/layouts/sidebar-component.tsx',
+    '/home/abdullah/Desktop/PM Project/frontend/app/components/workspace/create-workspace.tsx',
+    '/home/abdullah/Desktop/PM Project/frontend/app/lib/fetch-util.ts',
+    '/home/abdullah/Desktop/PM Project/frontend/node_modules/react-router/node_modules/cookie/dist/index.js',
+    '/home/abdullah/Desktop/PM Project/frontend/node_modules/set-cookie-parser/lib/set-cookie.js',
+    '/home/abdullah/Desktop/PM Project/frontend/node_modules/scheduler/cjs/scheduler.production.js',
+    '/home/abdullah/Desktop/PM Project/frontend/app/components/ui/avatar.tsx',
+    '/home/abdullah/Desktop/PM Project/frontend/app/components/ui/badge.tsx',
+    '/home/abdullah/Desktop/PM Project/frontend/app/components/ui/dropdown-menu.tsx',
+    '/home/abdullah/Desktop/PM Project/frontend/app/components/ui/tabs.tsx',
+    '/home/abdullah/Desktop/PM Project/frontend/app/hooks/use-task.tsx',
+    '/home/abdullah/Desktop/PM Project/frontend/app/hooks/use-workspace.tsx',
+    '/home/abdullah/Desktop/PM Project/frontend/app/components/workspace/workspace-header.tsx',
+    '/home/abdullah/Desktop/PM Project/frontend/app/components/workspace/project-list.tsx',
+    '/home/abdullah/Desktop/PM Project/frontend/app/components/project/create-project.tsx',
+    '/home/abdullah/Desktop/PM Project/frontend/app/components/workspace/workspace-avatar.tsx',
+    '/home/abdullah/Desktop/PM Project/frontend/app/components/ui/no-data-found.tsx',
+    '/home/abdullah/Desktop/PM Project/frontend/app/components/dashboard/recnt-projects.tsx',
+    '/home/abdullah/Desktop/PM Project/frontend/app/components/dashboard/stat-card.tsx',
+    '/home/abdullah/Desktop/PM Project/frontend/app/components/dashboard/statistics-charts.tsx',
+    '/home/abdullah/Desktop/PM Project/frontend/app/components/upcoming-tasks.tsx',
+    '/home/abdullah/Desktop/PM Project/frontend/app/provider/react-query-provider.tsx',
+    '/home/abdullah/Desktop/PM Project/frontend/app/app.css',
+    '/home/abdullah/Desktop/PM Project/frontend/node_modules/tailwindcss/index.css',
+    '/home/abdullah/Desktop/PM Project/frontend/node_modules/tw-animate-css/dist/tw-animate.css',
+    '/home/abdullah/Desktop/PM Project/frontend/app/types/index.ts',
+    '/home/abdullah/Desktop/PM Project/frontend/app/components/back-button.tsx',
+    '/home/abdullah/Desktop/PM Project/frontend/app/components/task/comment-section.tsx',
+    '/home/abdullah/Desktop/PM Project/frontend/app/components/task/sub-tasks.tsx',
+    '/home/abdullah/Desktop/PM Project/frontend/app/components/task/task-activity.tsx',
+    '/home/abdullah/Desktop/PM Project/frontend/app/components/task/task-assignees-selector.tsx',
+    '/home/abdullah/Desktop/PM Project/frontend/app/components/task/task-description.tsx',
+    '/home/abdullah/Desktop/PM Project/frontend/app/components/task/task-priority-selector.tsx',
+    '/home/abdullah/Desktop/PM Project/frontend/app/components/task/task-status-selector.tsx',
+    '/home/abdullah/Desktop/PM Project/frontend/app/components/task/task-title.tsx',
+    '/home/abdullah/Desktop/PM Project/frontend/app/components/task/watchers.tsx',
+    '/home/abdullah/Desktop/PM Project/frontend/app/components/task/create-task-dialog.tsx',
+    '/home/abdullah/Desktop/PM Project/frontend/app/components/ui/progress.tsx',
+    '/home/abdullah/Desktop/PM Project/frontend/app/hooks/use-project.tsx',
+    '/home/abdullah/Desktop/PM Project/frontend/app/lib/index.tsx',
+    '/home/abdullah/Desktop/PM Project/frontend/app/components/ui/scroll-area.tsx',
+    '/home/abdullah/Desktop/PM Project/frontend/app/lib/utils.ts',
+    '/home/abdullah/Desktop/PM Project/frontend/app/components/ui/dialog.tsx',
+    '/home/abdullah/Desktop/PM Project/frontend/app/components/ui/textarea.tsx',
+    '/home/abdullah/Desktop/PM Project/frontend/app/components/layouts/sidebar-nav.tsx',
+    '/home/abdullah/Desktop/PM Project/frontend/app/components/ui/label.tsx',
+    '/home/abdullah/Desktop/PM Project/frontend/app/components/task/task-icon.tsx',
+    '/home/abdullah/Desktop/PM Project/frontend/app/components/project/project-card.tsx',
+    '/home/abdullah/Desktop/PM Project/frontend/app/components/ui/calendar.tsx',
+    '/home/abdullah/Desktop/PM Project/frontend/app/components/ui/chart.tsx',
+    '/home/abdullah/Desktop/PM Project/frontend/app/components/ui/popover.tsx',
+    '/home/abdullah/Desktop/PM Project/frontend/app/components/ui/checkbox.tsx',
+    '/home/abdullah/Desktop/PM Project/frontend/app/components/ui/select.tsx',
+    '/home/abdullah/Desktop/PM Project/frontend/app/components/ui/separator.tsx',
+    '/home/abdullah/Desktop/PM Project/frontend/app/routes.ts',
+    '/home/abdullah/Desktop/PM Project/frontend/Dockerfile',
+    '/home/abdullah/Desktop/PM Project/frontend/tsconfig.json',
+    '/home/abdullah/Desktop/PM Project/frontend/components.json',
+    '/home/abdullah/Desktop/PM Project/frontend/vite.config.ts',
+    '/home/abdullah/Desktop/PM Project/frontend/.dockerignore',
+    ... 3588 more items
+  ],
+  [Symbol(augmented)]: true
+}

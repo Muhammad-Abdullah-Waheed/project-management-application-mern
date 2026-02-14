@@ -53,8 +53,18 @@ const createTaskSchema = z.object({
     assignees: z.array(z.string()).optional(),
 });
 
+const inviteMemberSchema = z.object({
+    email: z.string().email("Invalid email address"),
+    role: z.enum(["admin", "member", "viewer"]).optional(),
+});
+
+const tokenSchema = z.object({
+    token: z.string().min(1, "Token is required"),
+});
+
 export {
     registerSchema, loginSchema, verifyEmailSchema,
     resetPasswordRequestSchema, resetPasswordSchema,
-    workspaceSchema, projectSchema, createTaskSchema
+    workspaceSchema, projectSchema, createTaskSchema,
+    inviteMemberSchema, tokenSchema
 };

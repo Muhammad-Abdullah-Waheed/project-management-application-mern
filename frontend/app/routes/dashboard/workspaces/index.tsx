@@ -1,6 +1,6 @@
 import React from 'react'
 import { useWorkspacesQuery } from '@/hooks/use-workspace';
-import Loder from '@/components/ui/loder';
+import Loder from '@/components/ui/loader';
 import type { Workspace } from '@/types';
 import CreateWorkspaceDialog from '@/components/workspace/create-workspace';
 import { Button } from '@/components/ui/button';

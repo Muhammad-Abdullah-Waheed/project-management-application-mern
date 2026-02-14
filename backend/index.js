@@ -24,6 +24,9 @@ mongoose.connect(process.env.MONGO_URL)
 
 app.use(express.json());
 
+// Serve uploaded files as static content
+app.use('/uploads', express.static('uploads'));
+
 app.get('/', (req, res) => {
     res.status(200).json({ message: "Welcome to the backend" });
 })

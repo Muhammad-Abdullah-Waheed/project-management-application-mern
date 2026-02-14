@@ -8,7 +8,6 @@ export interface User {
     createdAt: Date;
 }
 
-
 export interface Workspace {
     _id: string;
     name: string;
@@ -56,70 +55,134 @@ export enum TaskStatus {
 
 export type TaskPriority = "Low" | "Medium" | "High";
 
+
+export interface Subtask {
+    _id: string;
+    title: string;
+    completed: boolean;
+    createdAt: Date;
+}
+
 export interface Task {
     _id: string;
     title: string;
     description?: string;
     status: TaskStatus;
     project: Project;
-    assignees: User[];
-    assignee: User;
-    watchers: User[];
-    dueDate: Date;
-    completedAt?: Date;
-    estimatedHours: number;
-    actualHours: number;
-    tags: string[];
-    createdBy: User;
+    createdAt: Date;
+    updatedAt: Date;
     isArchived: boolean;
-    createdAt: Date;
-    updatedAt: Date;
+    dueDate: Date;
     priority: TaskPriority;
-    subtasks: Subtask[];
-    attachments: Attachment[];
-
-}
-
-export interface Subtask {
-    _id: string;
-    title: string;
-    description?: string;
-    completed: boolean;
-    completedAt?: Date;
-    createdAt: Date;
-    updatedAt: Date;
+    assignee: User | string;
+    createdBy: User | string;
+    assignees: User[];
+    subtasks?: Subtask[];
+    watchers?: User[];
+    attachments?: Attachment[];
 }
 
 export interface Attachment {
-    _id: string;
     fileName: string;
     fileUrl: string;
     fileType: string;
     fileSize: number;
+    uploadedBy: string;
     uploadedAt: Date;
-    uploadedBy: User | string;
+    _id: string;
+}
+
+export interface MemberProps {
+    _id: string;
+    user: User;
+    role: "admin" | "member" | "owner" | "viewer";
+    joinedAt: Date;
+}
+
+export type ResourceType =
+    | "Task"
+    | "Project"
+    | "Workspace"
+    | "Comment"
+    | "User";
+
+export type ActionType =
+    | "created_task"
+    | "updated_task"
+    | "created_subtask"
+    | "updated_subtask"
+    | "completed_task"
+    | "created_project"
+    | "updated_project"
+    | "completed_project"
+    | "created_workspace"
+    | "updated_workspace"
+    | "added_comment"
+    | "added_member"
+    | "removed_member"
+    | "joined_workspace"
+    | "added_attachment";
+
+export interface ActivityLog {
+    _id: string;
+    user: User;
+    action: ActionType;
+    resourceType: ResourceType;
+    resourceId: string;
+    details: any;
+    createdAt: Date;
+}
+
+export interface CommentReaction {
+    emoji: string;
+    user: User;
 }
 
 export interface Comment {
     _id: string;
-    text: string;
-    task: Task;
     author: User;
-    mentions: { user: User | string; offset: number; length: number; }[];
-    reactions: { user: User | string; reaction: "like" | "love" | "haha" | "wow" | "sad" | "angry"; }[];
-    attachments: Attachment[];
-    isEdited: boolean;
-    editedAt?: Date;
+    text: string;
+    createdAt: Date;
+    reactions?: CommentReaction[];
+    attachments?: {
+        fileName: string;
+        fileUrl: string;
+        fileType?: string;
+        fileSize?: number;
+    }[];
 }
 
-export interface MemberProps {
-    user: User;
-    role: "owner" | "admin" | "member" | "viewer";
-    joinDate: Date;
+export interface StatsCardProps {
+    totalProjects: number;
+    totalTasks: number;
+    totalProjectInProgress: number;
+    totalTaskCompleted: number;
+    totalTaskToDo: number;
+    totalTaskInProgress: number;
 }
 
-export enum ProjectMemberRole {
-    OWNER = "manager",
-    ADMIN = "contributor",
-    MEMBER = "viewer",
+export interface TaskTrendsData {
+    name: string;
+    completed: number;
+    inProgress: number;
+    todo: number;
 }
+
+export interface TaskPriorityData {
+    name: string;
+    value: number;
+    color: string;
+}
+
+export interface ProjectStatusData {
+    name: string;
+    value: number;
+    color: string;
+}
+
+export interface WorkspaceProductivityData {
+    name: string;
+    completed: number;
+    total: number;
+}
+

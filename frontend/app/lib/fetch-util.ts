@@ -45,5 +45,9 @@ const deleteData = async<T>(url: string) => {
 
 const publicRoutes = ["/sign-in", "/sign-up", "/verify-email", "/forgot-password", "/reset-password", "/"];
 
+// Aliases for compatibility
+const fetchData = getData;
+const updateData = putData;
 
-export { postData, getData, putData, deleteData, api, publicRoutes };
+export { postData, getData, putData, deleteData, api, publicRoutes, fetchData, updateData };
+
