@@ -10,6 +10,6 @@ COPY . .
 RUN mkdir -p uploads/avatars
 
 ENV NODE_ENV=production
-EXPOSE 8000
+EXPOSE 5000
 
 CMD ["node", "index.js"]

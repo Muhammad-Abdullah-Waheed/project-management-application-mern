@@ -43,7 +43,7 @@ const deleteData = async<T>(url: string) => {
     return api.delete(url).then((response) => response.data);
 }
 
-const publicRoutes = ["/sign-in", "/sign-up", "/verify-email", "/forgot-password", "/reset-password", "/"];
+const publicRoutes = ["/", "/sign-in", "/sign-up", "/verify-email", "/forget-password", "/reset-password"];
 
 // Aliases for compatibility
 const fetchData = getData;
