@@ -1,6 +1,7 @@
 // sendVerificationEmail.js
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
+import { primaryFrontendUrl } from "./frontend-url.js";
 
 dotenv.config();
 
@@ -21,7 +22,7 @@ const transporter = nodemailer.createTransport({
  * @param {string} token - Verification token to include in link
  */
 export const sendVerificationEmail = async (email, token) => {
-  const verificationLink = `${process.env.FRONTEND_URL}/verify-email?token=${token}`;
+  const verificationLink = `${primaryFrontendUrl()}/verify-email?token=${token}`;
 
   // Compose email
   const mailOptions = {
@@ -65,7 +66,7 @@ export const sendVerificationEmail = async (email, token) => {
 };
 
 export const sendPasswordResetEmail = async (email, token) => {
-  const resetLink = `${process.env.FRONTEND_URL}/reset-password?token=${token}`;
+  const resetLink = `${primaryFrontendUrl()}/reset-password?token=${token}`;
 
   // Compose email
   const mailOptions = {

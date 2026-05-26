@@ -1,3 +1,4 @@
+import { isProjectMember, isWorkspaceMember } from "../libs/access.js";
 import Project from "../models/project.js";
 import Workspace from "../models/workspace.js";
 import Task from "../models/task.js";
@@ -13,11 +14,7 @@ export const createProjectController = async (req, res) => {
             return res.status(404).json({ message: "Workspace not found" });
         }
 
-        const isMember = workspace.members.some(
-            (member) => member.user._id.toString() === req.user._id.toString()
-        );
-
-        if (!isMember) {
+        if (!isWorkspaceMember(workspace, req.user._id)) {
             return res.status(403).json({ message: "You are not a member of this workspace" });
         }
 
@@ -36,7 +33,8 @@ export const createProjectController = async (req, res) => {
 
         res.status(201).json(project);
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        console.error(error);
+        res.status(500).json({ message: "Internal server error" });
     }
 }
 
@@ -50,11 +48,7 @@ export const getProjectDetailsController = async (req, res) => {
             return res.status(404).json({ message: "Project not found" });
         }
 
-        const isMember = project.members.some(
-            (member) => member.user._id.toString() === req.user._id.toString()
-        );
-
-        if (!isMember) {
+        if (!isProjectMember(project, req.user._id)) {
             return res.status(403).json({ message: "You are not a member of this project" });
         }
 
@@ -73,11 +67,7 @@ export const getProjectTasksController = async (req, res) => {
             return res.status(404).json({ message: "Project not found" });
         }
 
-        const isMember = project.members.some(
-            (member) => member.user?._id.toString() === req.user._id.toString()
-        );
-
-        if (!isMember) {
+        if (!isProjectMember(project, req.user._id)) {
             return res.status(403).json({ message: "You are not a member of this project" });
         }
 

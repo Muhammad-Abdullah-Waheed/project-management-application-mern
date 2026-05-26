@@ -4,6 +4,8 @@ import Comment from "../models/comment.js";
 import Project from "../models/project.js";
 import Task from "../models/task.js";
 import Workspace from "../models/workspace.js";
+import { assertActivityResourceAccess } from "../libs/activity-resource-access.js";
+import { isProjectMember, isWorkspaceMember } from "../libs/access.js";
 
 const createTaskHandler = async (req, res) => {
     try {
@@ -27,11 +29,7 @@ const createTaskHandler = async (req, res) => {
             });
         }
 
-        const isMember = workspace.members.some(
-            (member) => member.user.toString() === req.user._id.toString()
-        );
-
-        if (!isMember) {
+        if (!isWorkspaceMember(workspace, req.user._id)) {
             return res.status(403).json({
                 message: "You are not a member of this workspace",
             });
@@ -79,6 +77,18 @@ const getTaskById = async (req, res) => {
             "name profilePicture"
         );
 
+        if (!project) {
+            return res.status(404).json({
+                message: "Project not found",
+            });
+        }
+
+        if (!isProjectMember(project, req.user._id)) {
+            return res.status(403).json({
+                message: "You are not a member of this project",
+            });
+        }
+
         res.status(200).json({ task, project });
     } catch (error) {
         console.log(error);
@@ -109,11 +119,7 @@ const updateTaskTitle = async (req, res) => {
             });
         }
 
-        const isMember = project.members.some(
-            (member) => member.user.toString() === req.user._id.toString()
-        );
-
-        if (!isMember) {
+        if (!isProjectMember(project, req.user._id)) {
             return res.status(403).json({
                 message: "You are not a member of this project",
             });
@@ -158,11 +164,7 @@ const updateTaskDescription = async (req, res) => {
             });
         }
 
-        const isMember = project.members.some(
-            (member) => member.user.toString() === req.user._id.toString()
-        );
-
-        if (!isMember) {
+        if (!isProjectMember(project, req.user._id)) {
             return res.status(403).json({
                 message: "You are not a member of this project",
             });
@@ -212,11 +214,7 @@ const updateTaskStatus = async (req, res) => {
             });
         }
 
-        const isMember = project.members.some(
-            (member) => member.user.toString() === req.user._id.toString()
-        );
-
-        if (!isMember) {
+        if (!isProjectMember(project, req.user._id)) {
             return res.status(403).json({
                 message: "You are not a member of this project",
             });
@@ -261,11 +259,7 @@ const updateTaskAssignees = async (req, res) => {
             });
         }
 
-        const isMember = project.members.some(
-            (member) => member.user.toString() === req.user._id.toString()
-        );
-
-        if (!isMember) {
+        if (!isProjectMember(project, req.user._id)) {
             return res.status(403).json({
                 message: "You are not a member of this project",
             });
@@ -310,11 +304,7 @@ const updateTaskPriority = async (req, res) => {
             });
         }
 
-        const isMember = project.members.some(
-            (member) => member.user.toString() === req.user._id.toString()
-        );
-
-        if (!isMember) {
+        if (!isProjectMember(project, req.user._id)) {
             return res.status(403).json({
                 message: "You are not a member of this project",
             });
@@ -360,11 +350,7 @@ const addSubTask = async (req, res) => {
             });
         }
 
-        const isMember = project.members.some(
-            (member) => member.user.toString() === req.user._id.toString()
-        );
-
-        if (!isMember) {
+        if (!isProjectMember(project, req.user._id)) {
             return res.status(403).json({
                 message: "You are not a member of this project",
             });
@@ -416,6 +402,18 @@ const updateSubTask = async (req, res) => {
             });
         }
 
+        const project = await Project.findById(task.project);
+        if (!project) {
+            return res.status(404).json({
+                message: "Project not found",
+            });
+        }
+        if (!isProjectMember(project, req.user._id)) {
+            return res.status(403).json({
+                message: "You are not a member of this project",
+            });
+        }
+
         subTask.completed = completed;
         await task.save();
 
@@ -437,6 +435,11 @@ const getActivityByResourceId = async (req, res) => {
     try {
         const { resourceId } = req.params;
 
+        const access = await assertActivityResourceAccess(req, resourceId);
+        if (!access.allowed) {
+            return res.status(access.status).json({ message: access.message });
+        }
+
         const activity = await ActivityLog.find({ resourceId })
             .populate("user", "name profilePicture")
             .sort({ createdAt: -1 });
@@ -453,6 +456,24 @@ const getActivityByResourceId = async (req, res) => {
 const getCommentsByTaskId = async (req, res) => {
     try {
         const { taskId } = req.params;
+
+        const task = await Task.findById(taskId);
+        if (!task) {
+            return res.status(404).json({
+                message: "Task not found",
+            });
+        }
+        const project = await Project.findById(task.project);
+        if (!project) {
+            return res.status(404).json({
+                message: "Project not found",
+            });
+        }
+        if (!isProjectMember(project, req.user._id)) {
+            return res.status(403).json({
+                message: "You are not a member of this project",
+            });
+        }
 
         const comments = await Comment.find({ task: taskId })
             .populate("author", "name profilePicture")
@@ -488,11 +509,7 @@ const addComment = async (req, res) => {
             });
         }
 
-        const isMember = project.members.some(
-            (member) => member.user.toString() === req.user._id.toString()
-        );
-
-        if (!isMember) {
+        if (!isProjectMember(project, req.user._id)) {
             return res.status(403).json({
                 message: "You are not a member of this project",
             });
@@ -542,11 +559,7 @@ const watchTask = async (req, res) => {
             });
         }
 
-        const isMember = project.members.some(
-            (member) => member.user.toString() === req.user._id.toString()
-        );
-
-        if (!isMember) {
+        if (!isProjectMember(project, req.user._id)) {
             return res.status(403).json({
                 message: "You are not a member of this project",
             });
@@ -599,11 +612,7 @@ const achievedTask = async (req, res) => {
             });
         }
 
-        const isMember = project.members.some(
-            (member) => member.user.toString() === req.user._id.toString()
-        );
-
-        if (!isMember) {
+        if (!isProjectMember(project, req.user._id)) {
             return res.status(403).json({
                 message: "You are not a member of this project",
             });
